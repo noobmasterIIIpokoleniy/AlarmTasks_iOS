@@ -1,25 +1,98 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Будильник</title>
-    <style>
-        body { 
-            font-family: -apple-system, sans-serif; 
-            text-align: center; 
-            padding-top: 60px; 
-            background: #f2f2f7; 
-            margin: 0;
+<div class="card">
+        <div class="form-group">
+            <label for="alarmTime">Время будильника</label>
+            <input type="time" id="alarmTime">
+        </div>
+        
+        <div class="form-group">
+            <label for="alarmNote">Заметка / Задача</label>
+            <textarea id="alarmNote" placeholder="Например: Встать, выпить стакан воды и сделать зарядку"></textarea>
+        </div>
+        
+        <button onclick="setAlarm()">Установить будильник</button>
+    </div>
+
+    <div id="statusCard" class="status-card">
+        <div id="statusText">Будильник не установлен</div>
+    </div>
+</div>
+
+<script>
+    let alarmInterval = null;
+    let targetTime = null;
+    let targetNote = '';
+
+    function setAlarm() {
+        targetTime = document.getElementById('alarmTime').value;
+        targetNote = document.getElementById('alarmNote').value;
+        const statusCard = document.getElementById('statusCard');
+        const statusText = document.getElementById('statusText');
+
+        if (!targetTime) {
+            alert('Пожалуйста, выберите время будильника!');
+            return;
         }
-        h1 { color: #1c1c1e; font-size: 24px; }
-        input { font-size: 28px; padding: 10px; margin: 20px 0; border-radius: 10px; border: 1px solid #ccc; }
-        button { font-size: 18px; padding: 12px 24px; background: #007aff; color: white; border: none; border-radius: 10px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <h1>Мой Будильник</h1>
-    <input type="time" id="alarmTime"><br>
-    <button onclick="alert('Готово!')">Установить</button>
-</body>
-</html>
+
+        statusCard.classList.add('active');
+        statusText.innerHTML = `✅ Установлено на <b>${targetTime}</b><br><small style="margin-top: 5px; display:block;">${targetNote ? 'Задача: ' + targetNote : ''}</small>`;
+        
+        if (alarmInterval) clearInterval(alarmInterval);
+
+        // Проверка времени каждую секунду
+        alarmInterval = setInterval(() => {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const currentTime =н воды и сделать зарядк
+
+            if (currentTime === targetTime) {
+                triggerAlarm();
+                clearInterval(alarmInterval);
+            }
+        }, 1000);
+        
+        alert('Будильник успешно сохранен!');
+    }
+
+    function triggerAlarm() {
+        const statusText = document.getElementById('statusText');
+        statusText.innerHTML =, выпить стакан воды и сделать зарядку"></textarea>
+        </div>
+        
+        <button onclick="setAlarm()">Установить будильник</button>
+    </div>
+
+    <div 
+        playAudioAlert();
+    }
+
+    function playAudioAlert() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            function beep() {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 880;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                setTimeout(() => osc.stop(), 400);
+            }
+
+            let count = 0;
+            beep();
+            const soundInterval = setInterval(() => {
+                beep();
+                count++;
+                if (count > 20) clearInterval(soundInterval);
+            }, 600);
+        } catch (e) {
+            console.log('Audio error:', e);
+        }
+    }
+</script>
