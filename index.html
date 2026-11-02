@@ -1,4 +1,5 @@
-<div class="card">
+!DOCTYPE html>
+    <div class="card">
         <div class="form-group">
             <label for="alarmTime">Время будильника</label>
             <input type="time" id="alarmTime">
@@ -42,7 +43,7 @@
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            const currentTime =placeholder="Например: 
+            const currentTime = id="alarmNote" placeho
 
             if (currentTime === targetTime) {
                 triggerAlarm();
@@ -55,13 +56,11 @@
 
     function triggerAlarm() {
         const statusText = document.getElementById('statusText');
-        statusText.innerHTML =, выпить стакан воды и сделать зарядку"></textarea>
+        statusText.innerHTML =Например: Встать, выпить стакан воды и сделать зарядку"></textarea>
         </div>
         
         <button onclick="setAlarm()">Установить будильник</button>
-    </div>
-
-    <div 
+    <
         playAudioAlert();
     }
 
