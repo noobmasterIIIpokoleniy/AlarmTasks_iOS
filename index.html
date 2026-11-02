@@ -1,96 +1,113 @@
-!DOCTYPE html>
-    <div class="card">
-        <div class="form-group">
-            <label for="alarmTime">Время будильника</label>
-            <input type="time" id="alarmTime">
-        </div>
-        
-        <div class="form-group">
-            <label for="alarmNote">Заметка / Задача</label>
-            <textarea id="alarmNote" placeholder="Например: Встать, выпить стакан воды и сделать зарядку"></textarea>
-        </div>
-        
-        <button onclick="setAlarm()">Установить будильник</button>
-    </div>
-
-    <div id="statusCard" class="status-card">
-        <div id="statusText">Будильник не установлен</div>
-    </div>
-</div>
-
-<script>
-    let alarmInterval = null;
-    let targetTime = null;
-    let targetNote = '';
-
-    function setAlarm() {
-        targetTime = document.getElementById('alarmTime').value;
-        targetNote = document.getElementById('alarmNote').value;
-        const statusCard = document.getElementById('statusCard');
-        const statusText = document.getElementById('statusText');
-
-        if (!targetTime) {
-            alert('Пожалуйста, выберите время будильника!');
-            return;
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AlarmTasks iOS</title>
+    <style>
+        :root {
+            --bg-color: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-main: #1c1c1e;
+            --text-secondary: #8e8e93;
+            --accent: #007aff;
+            --accent-active: #0056b3;
+            --border: #c7c7cc;
         }
-
-        statusCard.classList.add('active');
-        statusText.innerHTML = `✅ Установлено на <b>${targetTime}</b><br><small style="margin-top: 5px; display:block;">${targetNote ? 'Задача: ' + targetNote : ''}</small>`;
-        
-        if (alarmInterval) clearInterval(alarmInterval);
-
-        alarmInterval = setInterval(() => {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const currentTime = id="alarmNote" placeho
-
-            if (currentTime === targetTime) {
-                triggerAlarm();
-                clearInterval(alarmInterval);
-            }
-        }, 1000);
-        
-        alert('Будильник успешно сохранен!');
-    }
-
-    function triggerAlarm() {
-        const statusText = document.getElementById('statusText');
-        statusText.innerHTML =Например: Встать, выпить стакан воды и сделать зарядку"></textarea>
-        </div>
-        
-        <button onclick="setAlarm()">Установить будильник</button>
-    <
-        playAudioAlert();
-    }
-
-    function playAudioAlert() {
-        try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            
-            function beep() {
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.value = 880;
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                setTimeout(() => osc.stop(), 400);
-            }
-
-            let count = 0;
-            beep();
-            const soundInterval = setInterval(() => {
-                beep();
-                count++;
-                if (count > 20) clearInterval(soundInterval);
-            }, 600);
-        } catch (e) {
-            console.log('Audio error:', e);
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
-    }
-</script>
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-main);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input[type="time"], textarea {
+            width: 100%;
+            font-size: 22px;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: #fafafa;
+            box-sizing: border-box;
+            outline: none;
+            font-family: inherit;
+            color: var(--text-main);
+            text-align: center;
+        }
+        textarea {
+            text-align: left;
+            resize: none;
+            height: 90px;
+            font-size: 16px;
+        }
+        input[type="time"]:focus, textarea:focus {
+            border-color: var(--accent);
+            background: #fff;
+        }
+        button {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 600;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:active {
+            background: var(--accent-active);
+        }
+        .status-card {
+            text-align: center;
+            background: #e5f1ff;
+            border: 1px solid #b6d4fe;
+            color: #084298;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 500;
+            display: none;
+        }
+        .status-card.active {
+            display: block;
+        }
+    </style>
+</head>
